@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         tv_batteryVoltage = findViewById(R.id.batteryVoltage);
         tv_batteryHealth = findViewById(R.id.batteryHealth);
         progressBar = findViewById(R.id.progressBar);
+        // UNWANTED CHANGES
     }
 
     @Override
