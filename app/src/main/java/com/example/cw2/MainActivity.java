@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,27 +49,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
 
-        batteryInfoReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                updateBatteryData(intent);
-            }
-        };
+        if (batteryInfoReceiver == null) {
+            batteryInfoReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    updateBatteryData(intent);
+                }
+            };
+        }
 
         registerReceiver(batteryInfoReceiver, intentFilter);
-        Log.i(MainActivity.class.getName(),"BroadcastReceiver registered.");
+        Log.i(MainActivity.class.getName(),"onResume() | BroadcastReceiver registered.");
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         unregisterReceiver(batteryInfoReceiver);
-        Log.i(MainActivity.class.getName(),"BroadcastReceiver unregistered.");
+        Log.i(MainActivity.class.getName(),"onPause() | BroadcastReceiver unregistered.");
     }
 
     @SuppressLint("SetTextI18n")
